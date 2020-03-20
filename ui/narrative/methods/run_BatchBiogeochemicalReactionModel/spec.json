@@ -11,14 +11,52 @@
     },
     "parameters": [ 
         {
-            "id": "parameter_1",
-            "optional": true,
-            "advanced": false,
+            "id": "fba_model",
+            "optional" : false,
+            "advanced" : false,
+            "allow_multiple" : false,
+            "default_values" : [ "" ],
+            "field_type" : "text",
+            "text_options" : { "valid_ws_types": ["KBaseFBA.FBAModel"] }
+        },
+        {
+            "id": "num_samples",
+            "optional": false,
+            "advanced": true,
             "allow_multiple": false,
-            "default_values": [ "" ],
+            "default_values": [ "100" ],
             "field_type": "text",
             "text_options": {
                 "valid_ws_types": [ ]
+            }
+        },
+        {
+            "id": "sample_dist",
+            "optional" : false,
+            "advanced": true,
+            "allow_multiple" : false,
+            "field_type" : "dropdown",
+            "dropdown_options" : {
+                "options" : [
+                   {
+                      "id" : "uniform",
+                      "display" : "Uniform Distribution",
+                      "ui_name" : "Uniform Distribution",
+                      "value" : "uniform"
+                   },
+                   {
+                      "value" : "lambda",
+                      "ui_name" : "Lambda Distribution",
+                      "display" : "Lambda Distribution",
+                      "id" : "lambda"
+                   }
+                ]
+            },
+            "default_values" : [
+                "uniform"
+            ],
+            "text_options" : {
+                "valid_ws_types" : []
             }
         }
     ],
@@ -35,8 +73,14 @@
                     "narrative_system_variable": "workspace_id",
                     "target_property": "workspace_id"
                 },{
-                    "input_parameter": "parameter_1",
-                    "target_property": "parameter_1"
+                    "input_parameter": "fba_model",
+                    "target_property": "fba_model"
+                },{
+                    "input_parameter": "num_samples",
+                    "target_property": "num_samples"
+                },{
+                    "input_parameter": "sample_dist",
+                    "target_property": "sample_dist"
                 }
             ],
             "output_mapping": [

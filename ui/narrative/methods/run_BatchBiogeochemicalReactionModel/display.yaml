@@ -1,10 +1,10 @@
 #
 # define display information
 #
-name: Method Name Here
+name: Build Batch Biogeochemical Reaction Model
 
 tooltip: |
-    Perform some kind of method
+    Perform 0d-simulation
 
 screenshots: []
 
@@ -24,13 +24,29 @@ suggestions:
 # Configure the display and description of parameters
 #
 parameters :
-    parameter_1 :
+    fba_model :
         ui-name : |
-            First parameter
+            FBA model
         short-hint : |
-            The first parameter
+            FBA model
         long-hint  : |
-            The first parameter that needs to be entered to drive the method. This might be the first of many.
+            The FBA model that needs to be entered to drive the method. This might be the first of many.
+
+    num_samples :
+        ui-name : |
+            Number of samples
+        short-hint : |
+            Number of samples
+        long-hint  : |
+            The number of samples is set as 100 by default.
+
+    sample_dist :
+        ui-name : |
+            Population dstribution for sampling
+        short-hint : |
+            Population dstribution for sampling
+        long-hint  : |
+            By default, samples drawn from a uniform distribution.
 
 description : |
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar efficitur felis, quis tincidunt sem congue at. Vivamus ornare feugiat faucibus. Fusce tincidunt mattis nunc, nec varius purus convallis quis. Nulla facilisi. In at magna dolor. Suspendisse sit amet felis at arcu auctor dapibus vitae pharetra dui. Nam semper mi quis tortor fermentum mollis. Donec a arcu pharetra, rutrum dolor vitae, rutrum mauris. Donec ornare fringilla sagittis. Nam laoreet est in elementum malesuada. Vestibulum id mi eget urna hendrerit feugiat. Donec et ultrices nulla. Phasellus diam eros, dapibus at tempus nec, semper vel ante.</p>
