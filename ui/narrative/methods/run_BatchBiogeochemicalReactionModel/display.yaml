@@ -1,7 +1,7 @@
 #
 # define display information
 #
-name: Build Batch Biogeochemical Reaction Model
+name: Simulate Batch Biogeochemical Reaction Model
 
 tooltip: |
     Perform 0d-simulation
@@ -39,6 +39,30 @@ parameters :
             Number of samples
         long-hint  : |
             The number of samples is set as 100 by default.
+
+    model_type :
+        ui-name : |
+            Type of the batch simulation model
+        short-hint : |
+            Type of the batch simulation model
+        long-hint  : |
+            Either 'cybernetic' or 'kinetic'. By default, the cybernetic model is selected.
+
+    end_time :
+        ui-name : |
+            End time of the batch simulation
+        short-hint : |
+            End time of the batch simulation
+        long-hint  : |
+            End time of the batch simulation
+
+    timestep :
+        ui-name : |
+            Time interval for a simulation
+        short-hint : |
+            Time interval for a simulation
+        long-hint  : |
+            Time interval for a simulation
 
     sample_dist :
         ui-name : |

@@ -26,9 +26,7 @@
             "allow_multiple": false,
             "default_values": [ "100" ],
             "field_type": "text",
-            "text_options": {
-                "valid_ws_types": [ ]
-            }
+            "text_options": { "valid_ws_types": [ ] }
         },
         {
             "id": "sample_dist",
@@ -52,12 +50,51 @@
                    }
                 ]
             },
-            "default_values" : [
-                "uniform"
-            ],
-            "text_options" : {
-                "valid_ws_types" : []
-            }
+            "default_values" : [ "uniform" ],
+            "text_options" : { "valid_ws_types" : [] }
+        },
+        {
+            "id": "model_type",
+            "optional" : false,
+            "advanced": true,
+            "allow_multiple" : false,
+            "field_type" : "dropdown",
+            "dropdown_options" : {
+                "options" : [
+                   {
+                      "id" : "cybernetic",
+                      "display" : "Cybernetic Model",
+                      "ui_name" : "Cybernetic Model",
+                      "value" : "cybernetic"
+                   },
+                   {
+                      "value" : "kinetic",
+                      "ui_name" : "Kinetic Model",
+                      "display" : "Kinetic Model",
+                      "id" : "kinetic"
+                   }
+                ]
+            },
+            "default_values" : [ "cybernetic" ],
+            "text_options" : { "valid_ws_types" : [] }
+        },
+        {
+            "id": "end_time",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "100" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "timestep",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "50" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
         }
     ],
     "behavior": {
@@ -78,6 +115,15 @@
                 },{
                     "input_parameter": "num_samples",
                     "target_property": "num_samples"
+                },{
+                    "input_parameter": "model_type",
+                    "target_property": "model_type"
+                },{
+                    "input_parameter": "end_time",
+                    "target_property": "end_time"
+                },{
+                    "input_parameter": "timestep",
+                    "target_property": "timestep"
                 },{
                     "input_parameter": "sample_dist",
                     "target_property": "sample_dist"

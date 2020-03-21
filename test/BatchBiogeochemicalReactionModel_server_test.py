@@ -43,7 +43,7 @@ class BatchBiogeochemicalReactionModelTest(unittest.TestCase):
         cls.scratch = cls.cfg['scratch']
         cls.callback_url = os.environ['SDK_CALLBACK_URL']
         suffix = int(time.time() * 1000)
-        cls.wsName = "test_ContigFilter_" + str(suffix)
+        cls.wsName = "test_BatchBiogeochemicalReactionModel_" + str(suffix)
         ret = cls.wsClient.create_workspace({'workspace': cls.wsName})  # noqa
 
     @classmethod
@@ -63,5 +63,13 @@ class BatchBiogeochemicalReactionModelTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        ret = self.serviceImpl.run_BatchBiogeochemicalReactionModel(self.ctx, {'workspace_name': self.wsName,
-                                                             'parameter_1': 'Hello World!'})
+        params={
+            'workspace_name': self.wsName,
+            "fba_model": "39537/10/1",
+            "num_samples": "100",
+            "sample_dist": "uniform",
+            "model_type": "cybernetic",
+            "end_time": "100",
+            "timestep": "50"
+        }
+        ret = self.serviceImpl.run_BatchBiogeochemicalReactionModel(self.ctx, params)
