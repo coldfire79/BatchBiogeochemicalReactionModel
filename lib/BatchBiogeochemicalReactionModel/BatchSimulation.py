@@ -227,14 +227,14 @@ class BatchSimulation(object):
             plt.figure()
             for i in range(param['noc']):
                 plt.plot(sol.t, sol.y[i,:])
-            plt.xlabel(r'$\tau$', fontsize=15)
-            plt.ylabel('$OC$ [mM]', fontsize=15)
+            plt.xlabel(r'$t$ [d]', fontsize=15)
+            plt.ylabel(r'$OC$ [mM]', fontsize=15)
             plt.savefig(fout+'_OC.png')
             # plt.show()
 
             plt.figure()
             plt.plot(sol.t, ro2)
-            plt.xlabel('$t$ [d]', fontsize=15)
+            plt.xlabel(r'$t$ [d]', fontsize=15)
             plt.ylabel(r'$|r_{O_2}|$ [mmol/C-mol-biom/d]', fontsize=15)
             plt.savefig(fout+'_rO2.png')
             # plt.show()
