@@ -52,8 +52,8 @@
           "advanced" : true,
           "allow_multiple" : false,
           "checkbox_options" : {
-              "checked_value": 1,
-              "unchecked_value": 0
+              "checked_value": "1",
+              "unchecked_value": "0"
           },
           "default_values" : [ "1" ],
           "field_type" : "checkbox",

@@ -68,11 +68,13 @@ class BatchBiogeochemicalReactionModel:
         num_samples = int(params['num_samples'])
         max_growth = float(params['max_growth'])
         harvest_vol = float(params['harvest_vol'])
-        end_time=float(params['end_time'])
-        timestep=int(params['timestep'])
-        random_seed=int(params['random_seed'])
+        end_time = float(params['end_time'])
+        timestep = int(params['timestep'])
+        random_seed = int(params['random_seed'])
 
-        model_type = "cybernetic" if params['model_type']=="1" else "kinetic"
+        model_type = int(params['model_type'])
+
+        model_type = "cybernetic" if model_type==1 else "kinetic"
 
         #######################################################################
         #  check out reactions from fba model
