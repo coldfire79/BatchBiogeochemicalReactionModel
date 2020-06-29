@@ -52,15 +52,12 @@
           "advanced" : true,
           "allow_multiple" : false,
           "checkbox_options" : {
-              "checked_value": "1",
-              "unchecked_value": "0"
+              "checked_value": 1,
+              "unchecked_value": 0
           },
           "default_values" : [ "1" ],
           "field_type" : "checkbox",
-          "text_options" : {
-            "valid_ws_types": [ ],
-            "is_output_name" : true
-          }
+          "text_options" : { "valid_ws_types": [ ] }
         },
         {
             "id": "end_time",
