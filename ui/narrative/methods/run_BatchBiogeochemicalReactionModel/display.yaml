@@ -13,12 +13,12 @@ icon: icon.png
 #
 # define a set of similar apps that might be useful to the user
 #
-suggestions:
-    apps:
-        related:
-            [app1, app2]
-        next:
-            [app3, app4]
+# suggestions:
+#     apps:
+#         related:
+#             [app1, app2]
+#         next:
+#             [app3, app4]
 
 #
 # Configure the display and description of parameters
@@ -36,17 +36,33 @@ parameters :
         ui-name : |
             Number of samples
         short-hint : |
-            Number of samples
+            Number of samples to be randomly selected
         long-hint  : |
             The number of samples is set as 100 by default.
 
+    max_growth :
+        ui-name : |
+            The maximal growth rate
+        short-hint : |
+            The maximal growth rate
+        long-hint  : |
+            The maximal growth rate is set as 1 by default.
+
+    harvest_vol :
+        ui-name : |
+            The harvest volume
+        short-hint : |
+            The harvest volume
+        long-hint  : |
+            The harvest volume is set as 1 by default.
+
     model_type :
         ui-name : |
-            Type of the batch simulation model
+            Use of Cybernetic regulation
         short-hint : |
-            Type of the batch simulation model
+            Use of Cybernetic regulation
         long-hint  : |
-            Either 'cybernetic' or 'kinetic'. By default, the cybernetic model is selected.
+            If checked, the cybernetic regulation will be applied. Otherwise, it will use the typical kinetic model. 
 
     end_time :
         ui-name : |
@@ -58,23 +74,19 @@ parameters :
 
     timestep :
         ui-name : |
-            Time interval for a simulation
+            The number of time steps for ODE
         short-hint : |
-            Time interval for a simulation
+            The number of time steps for ODE
         long-hint  : |
-            Time interval for a simulation
+            The number of time steps for ODE
 
-    sample_dist :
+    random_seed :
         ui-name : |
-            Population dstribution for sampling
+            Random seed
         short-hint : |
-            Population dstribution for sampling
+            Random seed used to initialize the pseudo-random number generator
         long-hint  : |
-            By default, samples drawn from a uniform distribution.
+            Random seed used to initialize the pseudo-random number generator, which is set as 41 by default.
 
 description : |
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar efficitur felis, quis tincidunt sem congue at. Vivamus ornare feugiat faucibus. Fusce tincidunt mattis nunc, nec varius purus convallis quis. Nulla facilisi. In at magna dolor. Suspendisse sit amet felis at arcu auctor dapibus vitae pharetra dui. Nam semper mi quis tortor fermentum mollis. Donec a arcu pharetra, rutrum dolor vitae, rutrum mauris. Donec ornare fringilla sagittis. Nam laoreet est in elementum malesuada. Vestibulum id mi eget urna hendrerit feugiat. Donec et ultrices nulla. Phasellus diam eros, dapibus at tempus nec, semper vel ante.</p>
-
-    <p>Curabitur auctor, metus at tristique euismod, odio elit tincidunt neque, a facilisis sem massa convallis dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc ut hendrerit tellus. Nunc lacinia laoreet finibus. Etiam vitae sagittis enim. Fusce consectetur porta est eu pretium. In hac habitasse platea dictumst. Integer pellentesque sit amet sapien id venenatis. Nullam ac risus at orci eleifend aliquet. Vestibulum elit purus, euismod a nibh quis, pellentesque semper leo. Curabitur ullamcorper felis hendrerit nunc egestas, sit amet pharetra sapien porttitor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas hendrerit ipsum a ligula aliquet vestibulum. Duis a ante urna. Aenean ante neque, rhoncus id luctus ut, accumsan vel nunc.</p>
-
-    <p>Pellentesque accumsan aliquet magna, id consectetur tellus condimentum eu. Suspendisse elit dui, ornare ac leo eget, tincidunt feugiat orci. Maecenas auctor gravida lacinia. Mauris interdum nisi vel gravida varius. Nullam tempus, purus eget posuere aliquet, odio elit semper massa, quis facilisis massa odio vitae lacus. Fusce varius enim a mi vehicula tempus. Maecenas faucibus tellus ipsum, at venenatis ipsum auctor et. Suspendisse sem mi, dignissim id porta efficitur, auctor eget magna. Vivamus varius purus nulla, porttitor euismod lorem cursus quis. Nulla sit amet eros nec sem ultrices pulvinar.</p>
+    <p>This KBase app is to perform the 0d-simulation with the stoichiometric reaction models (stoichiometry matrices).</p>

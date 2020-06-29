@@ -65,11 +65,13 @@ class BatchBiogeochemicalReactionModelTest(unittest.TestCase):
         # self.assertEqual(ret[...], ...) or other unittest methods
         params={
             'workspace_name': self.wsName,
-            "fba_model": "39537/10/1",
+            "fba_model": "39537/18/1",
             "num_samples": "100",
-            "sample_dist": "uniform",
-            "model_type": "cybernetic",
+            "model_type": "1",
+            "max_growth": "1",
+            "harvest_vol": "0.2",
             "end_time": "100",
-            "timestep": "50"
+            "timestep": "50",
+            "random_seed": "41"
         }
         ret = self.serviceImpl.run_BatchBiogeochemicalReactionModel(self.ctx, params)

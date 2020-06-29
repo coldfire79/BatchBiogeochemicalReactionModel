@@ -50,7 +50,7 @@ class BatchSimulation(object):
                 self.num_reactions, self.num_samples, self.model_type
             )
         
-    def get_params_by_sampling(self, indices=None):
+    def get_params_by_sampling(self, umax=1, vh=0.2, indices=None):
         '''
         get parameters from the stoichiometry by random sampling
         
@@ -74,7 +74,10 @@ class BatchSimulation(object):
             select_idx = indices
         
         tdf = self.stoich_mat.iloc[select_idx] \
-            [['donor', 'acceptor', 'biom']].copy()
+            [['formula', 'donor', 'acceptor', 'biom']].copy()
+
+        print(tdf)
+        param['formula'] = tdf.formula.values
         param['yCs'] = tdf.donor.values
         param['yO2'] = tdf.acceptor.values
         param['yBiom'] = tdf.biom.values
@@ -82,8 +85,8 @@ class BatchSimulation(object):
         param['nc'] = self.stoich_mat.C.iloc[select_idx].tolist()
         param['noc'] = tdf.shape[0]
         
-        param['umax'] = 1
-        param['vh'] = 0.2
+        param['umax'] = umax
+        param['vh'] = vh
         param['kd'] = 0
 
         # initial concentration
@@ -177,7 +180,7 @@ class BatchSimulation(object):
             rO2[i] = dydt[noc]/y[-1] # specific rate
         return rO2
     
-    def run(self, end_time=10, timestep=50, interval=None,
+    def run(self, umax=1, vh=0.2, end_time=10, timestep=50, interval=None,
             indices=None, fout=None):
         """
         Run a batch simulation
@@ -213,7 +216,7 @@ class BatchSimulation(object):
             tspan = np.linspace(0, end_time, timestep)
         
         # get params
-        param, _ = self.get_params_by_sampling(indices=indices)
+        param, _ = self.get_params_by_sampling(umax=umax, vh=vh, indices=indices)
         param['modeltype'] = self.model_type
         
         # Solve differential equation
@@ -225,20 +228,23 @@ class BatchSimulation(object):
 
         if fout:
             plt.figure()
+            _dict = {"t[d]":sol.t}
             for i in range(param['noc']):
+                _dict[param['formula'][i]] = sol.y[i,:]
                 plt.plot(sol.t, sol.y[i,:])
             plt.xlabel(r'$t$ [d]', fontsize=15)
             plt.ylabel(r'$OC$ [mM]', fontsize=15)
             plt.savefig(fout+'_OC.png')
-            # plt.show()
+            pd.DataFrame(_dict).to_csv(fout+'_OC.csv', index=False)
 
             plt.figure()
             plt.plot(sol.t, ro2)
             plt.xlabel(r'$t$ [d]', fontsize=15)
             plt.ylabel(r'$|r_{O_2}|$ [mmol/C-mol-biom/d]', fontsize=15)
             plt.savefig(fout+'_rO2.png')
-            # plt.show()
-            return (fout+'_OC.png', fout+'_rO2.png')
+            pd.DataFrame({"t[d]":sol.t, "rO2":ro2}).to_csv(fout+'_rO2.csv', index=False)
+
+            return (fout+'_OC.png', fout+'_rO2.png', fout+'_OC.csv', fout+'_rO2.csv')
         return ()
 
     def state_plotter(self, times, states, fig_num):

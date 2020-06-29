@@ -65,6 +65,15 @@ class BatchBiogeochemicalReactionModel:
         html_folder = os.path.join(self.shared_folder, 'html')
         os.mkdir(html_folder)
 
+        num_samples = int(params['num_samples'])
+        max_growth = float(params['max_growth'])
+        harvest_vol = float(params['harvest_vol'])
+        end_time=float(params['end_time'])
+        timestep=int(params['timestep'])
+        random_seed=int(params['random_seed'])
+
+        model_type = "cybernetic" if params['model_type']=="1" else "kinetic"
+
         #######################################################################
         #  check out reactions from fba model
         #######################################################################
@@ -121,18 +130,24 @@ class BatchBiogeochemicalReactionModel:
         #  batch simulation
         #######################################################################
         df = pd.DataFrame(stoich_by_reactions)
-        batchsim = BatchSimulation(df, 
-                                   num_samples=int(params['num_samples']),
-                                   model_type=params['model_type'])
+        batchsim = BatchSimulation(df, num_samples=num_samples,
+                                   model_type=model_type,
+                                   random_seed=random_seed)
         print("Start", batchsim)
-        (ocfig, ro2fig) = batchsim.run(end_time=float(params['end_time']),
-                                       timestep=int(params['timestep']),
+        (ocfig, ro2fig, occsv, ro2csv) = batchsim.run(umax=max_growth,
+                                       vh=harvest_vol,
+                                       end_time=end_time,
+                                       timestep=timestep,
                                        fout=html_folder + "/" + fba_model['data']['name'])
     
         output_files.append({'path': ocfig, 'name': os.path.basename(ocfig),
             'label': 'OC profile', 'description': 'OC profile'})
         output_files.append({'path': ro2fig, 'name': os.path.basename(ro2fig),
             'label': 'r O2 profile', 'description': 'r O2 profile'})
+        output_files.append({'path': occsv, 'name': os.path.basename(occsv),
+            'label': 'OC profile (csv)', 'description': 'OC profile (csv)'})
+        output_files.append({'path': ro2csv, 'name': os.path.basename(ro2csv),
+            'label': 'r O2 profile (csv)', 'description': 'r O2 profile (csv)'})
         
         #######################################################################
         #  html
