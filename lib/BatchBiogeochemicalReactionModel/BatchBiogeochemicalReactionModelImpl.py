@@ -68,6 +68,15 @@ class BatchBiogeochemicalReactionModel:
         num_samples = int(params['num_samples'])
         max_growth = float(params['max_growth'])
         harvest_vol = float(params['harvest_vol'])
+
+        kd = float(params['cell_death'])
+        kLa = float(params['kLa'])
+        o2star = float(params['o2_saturation'])
+        cc = float(params['carrying_capacity'])
+        init_doc = float(params['initial_doc'])
+        init_o2 = float(params['initial_o2'])
+        init_biom = float(params['initial_biom'])
+
         end_time = float(params['end_time'])
         timestep = int(params['timestep'])
         random_seed = int(params['random_seed'])
@@ -138,16 +147,21 @@ class BatchBiogeochemicalReactionModel:
         print("Start", batchsim)
         (ocfig, ro2fig, occsv, ro2csv) = batchsim.run(umax=max_growth,
                                        vh=harvest_vol,
+                                       kd=kd, kLa=kLa, o2star=o2star,
+                                       cc=cc,
+                                       init_doc=init_doc,
+                                       init_o2=init_o2,
+                                       init_biom=init_biom,
                                        end_time=end_time,
                                        timestep=timestep,
                                        fout=html_folder + "/" + fba_model['data']['name'])
     
         output_files.append({'path': ocfig, 'name': os.path.basename(ocfig),
-            'label': 'OC profile', 'description': 'OC profile'})
+            'label': 'Concentration profile', 'description': 'Concentration profile'})
         output_files.append({'path': ro2fig, 'name': os.path.basename(ro2fig),
             'label': 'r O2 profile', 'description': 'r O2 profile'})
         output_files.append({'path': occsv, 'name': os.path.basename(occsv),
-            'label': 'OC profile (csv)', 'description': 'OC profile (csv)'})
+            'label': 'Concentration profile (csv)', 'description': 'Concentration profile (csv)'})
         output_files.append({'path': ro2csv, 'name': os.path.basename(ro2csv),
             'label': 'r O2 profile (csv)', 'description': 'r O2 profile (csv)'})
         

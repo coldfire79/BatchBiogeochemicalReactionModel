@@ -66,12 +66,19 @@ class BatchBiogeochemicalReactionModelTest(unittest.TestCase):
         params={
             'workspace_name': self.wsName,
             "fba_model": "39537/18/1",
-            "num_samples": "100",
+            "num_samples": "10",
             "model_type": "1",
-            "max_growth": "1",
-            "harvest_vol": "0.2",
-            "end_time": "100",
-            "timestep": "50",
-            "random_seed": "41"
+            "max_growth": "0.3",
+            "harvest_vol": "10",
+            "cell_death": "0.01",
+            "initial_doc": "0.1",
+            "initial_o2": "0.25",
+            "initial_biom": "0.1",
+            "carrying_capacity": "inf",
+            "o2_saturation": "0.25",
+            "kLa": "350",
+            "end_time": "60",
+            "timestep": "100",
+            "random_seed": "0"
         }
         ret = self.serviceImpl.run_BatchBiogeochemicalReactionModel(self.ctx, params)

@@ -38,47 +38,103 @@ parameters :
         short-hint : |
             Number of samples to be randomly selected
         long-hint  : |
-            The number of samples is set as 100 by default.
+            The number of samples is set as 10 by default.
 
     max_growth :
         ui-name : |
-            The maximal growth rate
+            Maximal growth rate (&mu;<sup>max</sup>) [1/h]
         short-hint : |
-            The maximal growth rate
+            Maximal growth rate (&mu;<sup>max</sup>) [1/h]
         long-hint  : |
-            The maximal growth rate is set as 1 by default.
+            The maximal growth rate is set as 0.3 by default.
+
+    cell_death :
+        ui-name : |
+            Cell death rate (k<sub>d</sub>) [1/h]
+        short-hint : |
+            Cell death rate (k<sub>d</sub>) [1/h]
+        long-hint  : |
+            Cell death rate is set as 0.01 by default.
 
     harvest_vol :
         ui-name : |
-            The harvest volume
+            Harvest volume (V<sub>h</sub>) [m<sup>3</sup>]
         short-hint : |
-            The harvest volume
+            Harvest volume (V<sub>h</sub>) [m<sup>3</sup>]
         long-hint  : |
-            The harvest volume is set as 1 by default.
+            The harvest volume is set as 10 by default.
+
+    initial_doc :
+        ui-name : |
+            Initial DOC concentration (OC<sub>i</sub>(0), i=1,...,n) [mol/m<sup>3</sup>]
+        short-hint : |
+            Initial DOC concentration (OC<sub>i</sub>(0), i=1,...,n) [mol/m<sup>3</sup>]
+        long-hint  : |
+            The initial DOC concentration is set as 0.1 by default.
+
+    initial_o2 :
+        ui-name : |
+            Initial DO concentration (O<sub>2</sub>(0)) [mol/m<sup>3</sup>]
+        short-hint : |
+            Initial DO concentration (O<sub>2</sub>(0)) [mol/m<sup>3</sup>]
+        long-hint  : |
+            The initial DO concentration is set as 0.1 by default.
+
+    initial_biom :
+        ui-name : |
+            Initial biomass concentration (Biom(0)) [mol/m<sup>3</sup>]
+        short-hint : |
+            Initial biomass concentration (Biom(0)) [mol/m<sup>3</sup>]
+        long-hint  : |
+            The initial biomass concentration is set as 0.1 by default.
+
+    carrying_capacity :
+        ui-name : |
+            Carrying capacity (C<sub>c</sub>) [mol/m<sup>3</sup>]
+        short-hint : |
+            Carrying capacity (C<sub>c</sub>) [mol/m<sup>3</sup>]
+        long-hint  : |
+            The carrying capacity is set as inf by default.
+
+    o2_saturation :
+        ui-name : |
+            O2 saturation in water (O<sub>2</sub><sup>*</sup>) [mol/m<sup>3</sup>]
+        short-hint : |
+            O2 saturation in water (O<sub>2</sub><sup>*</sup>) [mol/m<sup>3</sup>]
+        long-hint  : |
+            The O2 saturation in water is set as 0.25 by default.
+
+    kLa :
+        ui-name : |
+            Volumetric mass transfer rate of O<sub>2</sub> [1/h]
+        short-hint : |
+            Volumetric mass transfer rate of O<sub>2</sub> [1/h]
+        long-hint  : |
+            The O2 volumetric mass transfer rate is set as 350 by default.
 
     model_type :
         ui-name : |
-            Use of Cybernetic regulation
+            Turn on cybernetic regulation
         short-hint : |
-            Use of Cybernetic regulation
+            Turn on cybernetic regulation
         long-hint  : |
             If checked, the cybernetic regulation will be applied. Otherwise, it will use the typical kinetic model. 
 
     end_time :
         ui-name : |
-            End time of the batch simulation
+            Simulation end time
         short-hint : |
-            End time of the batch simulation
+            Simulation end time
         long-hint  : |
-            End time of the batch simulation
+            Simulation end time
 
     timestep :
         ui-name : |
-            The number of time steps for ODE
+            Number of time steps
         short-hint : |
-            The number of time steps for ODE
+            Number of time steps
         long-hint  : |
-            The number of time steps for ODE
+            Number of time steps
 
     random_seed :
         ui-name : |
@@ -86,7 +142,7 @@ parameters :
         short-hint : |
             Random seed used to initialize the pseudo-random number generator
         long-hint  : |
-            Random seed used to initialize the pseudo-random number generator, which is set as 41 by default.
+            Random seed used to initialize the pseudo-random number generator, which is set as 0 by default.
 
 description : |
     <p>This KBase app is to perform the 0d-simulation with the stoichiometric reaction models (stoichiometry matrices).</p>

@@ -50,7 +50,13 @@ class BatchSimulation(object):
                 self.num_reactions, self.num_samples, self.model_type
             )
         
-    def get_params_by_sampling(self, umax=1, vh=0.2, indices=None):
+    def get_params_by_sampling(self, umax=0.3, vh=10,
+                               kd=0.01, kLa=350, o2star=0.25,
+                               cc=np.inf,
+                               init_doc=0.1,
+                               init_o2=0.25,
+                               init_biom=0.1,
+                               indices=None):
         '''
         get parameters from the stoichiometry by random sampling
         
@@ -87,13 +93,16 @@ class BatchSimulation(object):
         
         param['umax'] = umax
         param['vh'] = vh
-        param['kd'] = 0
+        param['kd'] = kd
+        param['kLa'] = kLa
+        param['o2star'] = o2star
+        param['cc'] = cc
 
         # initial concentration
         param['y0'] = np.zeros(param['noc']+2)
-        param['y0'][0:param['noc']] = 1  # OC
-        param['y0'][param['noc']] = 0  # O2
-        param['y0'][param['noc']+1] = 0.01  # Biomass
+        param['y0'][0:param['noc']] = init_doc  # OC
+        param['y0'][param['noc']] = init_o2  # O2
+        param['y0'][param['noc']+1] = init_biom  # Biomass
         
         return param, select_idx
 
@@ -114,7 +123,10 @@ class BatchSimulation(object):
                 Derivatives
         
         """
-        dydt = np.zeros(len(y))
+        # print('y.shape:', y.shape)
+        ny = len(y)
+        dydt = np.zeros(ny)
+        dydt0 = np.zeros(ny)
 
         yCs = param['yCs']
         yO2 = param['yO2']
@@ -125,12 +137,18 @@ class BatchSimulation(object):
         vh = param['vh']
         kd = param['kd']
 
+        kLa = param['kLa']
+        o2star = param['o2star']
+        cc = param['cc']
+
         oc = y[0:noc]
+        o2 = y[noc]
         biom = y[-1]
 
         rkin = np.zeros(noc)
         for ioc in range(noc):
-            rkin[ioc] = umax*np.exp(yCs[ioc]/vh/oc[ioc])*biom
+            # rkin[ioc] = umax*np.exp(yCs[ioc]/vh/oc[ioc])*biom
+            rkin[ioc] = umax*np.exp(yCs[ioc]/vh/oc[ioc])*np.exp(yO2[ioc]/vh/o2)*biom*(1-biom/cc)
 
         if param['modeltype'] == 'kinetic':
             r=rkin
@@ -148,9 +166,11 @@ class BatchSimulation(object):
 
         Y = np.diag(yCs)
         Yaug = np.vstack([Y, yO2, yBiom])
-        dydt = np.dot(Yaug, r)
-        dydt[-1] = dydt[-1] - kd*biom
-        
+        # dydt = np.dot(Yaug, r)
+        # dydt[-1] = dydt[-1] - kd*biom
+        dydt0 = dydt = np.dot(Yaug, r)
+        dydt[ny-2]=dydt0[ny-2]+kLa*(o2star-o2)
+        dydt[ny-1]=dydt0[ny-1]-kd*biom
         return dydt
 
     def get_ro2(self, Y, param, odefun):
@@ -172,15 +192,30 @@ class BatchSimulation(object):
         """
         n = Y.shape[0]
         noc = param['noc']
+        kLa = param['kLa']
+        o2star = param['o2star']
+        kd = param['kd']
 
         rO2 = np.zeros(n)
+        rBiom = np.zeros(n)
         for i in range(n):
             y = Y[i,:]
-            dydt = odefun([], y, param);
-            rO2[i] = dydt[noc]/y[-1] # specific rate
-        return rO2
+            dydt = odefun([], y, param)
+            
+            dydt0 = dydt
+            o2 = y[noc]
+            biom = y[-1]
+            dydt0[-2]=dydt[-2]-kLa*(o2star-o2)
+            dydt0[-1]=dydt[-1]+kd*biom
+            
+            # rO2[i] = dydt[noc]/y[-1] # specific rate
+            rO2[i] = dydt0[noc]/y[-1]  # specific rate
+            rBiom[i] = dydt0[-1]/y[-1]  # specific rate
+        return rO2, rBiom
     
-    def run(self, umax=1, vh=0.2, end_time=10, timestep=50, interval=None,
+    def run(self, umax=0.3, vh=10, kd=0.01, kLa=350, o2star=0.25,
+            cc=np.inf, init_doc=0.1, init_o2=0.25, init_biom=0.1,
+            end_time=10, timestep=50, interval=None,
             indices=None, fout=None):
         """
         Run a batch simulation
@@ -216,7 +251,12 @@ class BatchSimulation(object):
             tspan = np.linspace(0, end_time, timestep)
         
         # get params
-        param, _ = self.get_params_by_sampling(umax=umax, vh=vh, indices=indices)
+        param, _ = self.get_params_by_sampling(umax=umax, vh=vh,
+                                               kd=kd, kLa=kLa, o2star=o2star,
+                                               cc=cc, init_doc=init_doc,
+                                               init_o2=init_o2,
+                                               init_biom=init_biom,
+                                               indices=indices)
         param['modeltype'] = self.model_type
         
         # Solve differential equation
@@ -224,27 +264,61 @@ class BatchSimulation(object):
                         [tspan[0], tspan[-1]], param['y0'], t_eval=tspan)
         
         print(sol.y.shape)
-        ro2 = np.abs(self.get_ro2(sol.y.T, param, odefun=self.f))
+        # ro2 = np.abs(self.get_ro2(sol.y.T, param, odefun=self.f))
+        ro2, rBiom = self.get_ro2(sol.y.T, param, odefun=self.f)
+        ro2 = np.abs(ro2)
 
         if fout:
-            plt.figure()
-            _dict = {"t[d]":sol.t}
-            for i in range(param['noc']):
+            ############# dynamic ##############
+            fig = plt.figure(figsize=(10,10))
+
+            _dict = {"t[h]":sol.t}
+            noc = param['noc']
+
+            ax = fig.add_subplot(3, 1, 1)
+            for i in range(noc):
                 _dict[param['formula'][i]] = sol.y[i,:]
-                plt.plot(sol.t, sol.y[i,:])
-            plt.xlabel(r'$t$ [d]', fontsize=15)
-            plt.ylabel(r'$OC$ [mM]', fontsize=15)
-            plt.savefig(fout+'_OC.png')
-            pd.DataFrame(_dict).to_csv(fout+'_OC.csv', index=False)
+                ax.plot(sol.t, sol.y[i,:])
+            # ax.set_xlabel(r'$t$ [h]', fontsize=15)
+            ax.set_ylabel(r'$DOC$ [mol/$m^3$]', fontsize=15)
+            
+            ax = fig.add_subplot(3, 1, 2)
+            _dict["DO"] = sol.y[noc,:]
+            ax.plot(sol.t, sol.y[noc,:])
+            # ax.set_xlabel(r'$t$ [h]', fontsize=15)
+            ax.set_ylabel(r'$DO$ [mol/$m^3$]', fontsize=15)
 
-            plt.figure()
-            plt.plot(sol.t, ro2)
-            plt.xlabel(r'$t$ [d]', fontsize=15)
-            plt.ylabel(r'$|r_{O_2}|$ [mmol/C-mol-biom/d]', fontsize=15)
-            plt.savefig(fout+'_rO2.png')
-            pd.DataFrame({"t[d]":sol.t, "rO2":ro2}).to_csv(fout+'_rO2.csv', index=False)
+            ax = fig.add_subplot(3, 1, 3)
+            _dict["Biomass"] = sol.y[noc+1,:]
+            ax.plot(sol.t, sol.y[noc+1,:])
+            ax.set_xlabel(r'$t$ [h]', fontsize=15)
+            ax.set_ylabel(r'$Biomass$ [mol/$m^3$]', fontsize=15)
 
-            return (fout+'_OC.png', fout+'_rO2.png', fout+'_OC.csv', fout+'_rO2.csv')
+            plt.tight_layout()
+            plt.savefig(fout+'_concentrations.png')
+            pd.DataFrame(_dict).to_csv(fout+'_concentrations.csv', index=False)
+            ############# dynamic ##############
+
+            ############# rates ##############
+            fig = plt.figure(figsize=(10,10))
+
+            ax = fig.add_subplot(2, 1, 1)
+            ax.plot(sol.t, ro2)
+            ax.set_xlabel(r'$t$ [h]', fontsize=15)
+            ax.set_ylabel(r'$|r_{O_2}|$ [mol/biom-mol/h]', fontsize=15)
+
+            ax = fig.add_subplot(2, 1, 2)
+            ax.plot(sol.t, rBiom)
+            ax.set_xlabel(r'$t$ [h]', fontsize=15)
+            ax.set_ylabel(r'$r_{Biom}$ [1/h]', fontsize=15)
+            
+            plt.tight_layout()
+            plt.savefig(fout+'_rO2_biom.png')
+            pd.DataFrame({"t[h]":sol.t, "rO2":ro2, "rBiom":rBiom}).to_csv(fout+'_rO2_biom.csv', index=False)
+            ############# rates ##############
+
+            return (fout+'_concentrations.png', fout+'_rO2_biom.png',
+                    fout+'_concentrations.csv', fout+'_rO2_biom.csv')
         return ()
 
     def state_plotter(self, times, states, fig_num):

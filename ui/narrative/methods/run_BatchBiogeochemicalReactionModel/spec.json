@@ -22,27 +22,90 @@
         {
             "id": "num_samples",
             "optional": false,
-            "advanced": true,
+            "advanced": false,
             "allow_multiple": false,
-            "default_values": [ "100" ],
+            "default_values": [ "10" ],
             "field_type": "text",
             "text_options": { "valid_ws_types": [ ] }
         },
         {
             "id": "max_growth",
             "optional": false,
-            "advanced": true,
+            "advanced": false,
             "allow_multiple": false,
-            "default_values": [ "1" ],
+            "default_values": [ "0.3" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "cell_death",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.01" ],
             "field_type": "text",
             "text_options": { "valid_ws_types": [ ] }
         },
         {
             "id": "harvest_vol",
             "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "10" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "initial_doc",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.1" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "initial_o2",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.25" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "initial_biom",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.1" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "carrying_capacity",
+            "optional": false,
             "advanced": true,
             "allow_multiple": false,
-            "default_values": [ "0.2" ],
+            "default_values": [ "inf" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "o2_saturation",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "0.25" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "kLa",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "350" ],
             "field_type": "text",
             "text_options": { "valid_ws_types": [ ] }
         },
@@ -82,7 +145,7 @@
             "optional": false,
             "advanced": true,
             "allow_multiple": false,
-            "default_values": [ "41" ],
+            "default_values": [ "0" ],
             "field_type": "text",
             "text_options": { "valid_ws_types": [ ] }
         }
@@ -110,8 +173,29 @@
                     "input_parameter": "max_growth",
                     "target_property": "max_growth"
                 },{
+                    "input_parameter": "cell_death",
+                    "target_property": "cell_death"
+                },{
                     "input_parameter": "harvest_vol",
                     "target_property": "harvest_vol"
+                },{
+                    "input_parameter": "initial_doc",
+                    "target_property": "initial_doc"
+                },{
+                    "input_parameter": "initial_o2",
+                    "target_property": "initial_o2"
+                },{
+                    "input_parameter": "initial_biom",
+                    "target_property": "initial_biom"
+                },{
+                    "input_parameter": "carrying_capacity",
+                    "target_property": "carrying_capacity"
+                },{
+                    "input_parameter": "o2_saturation",
+                    "target_property": "o2_saturation"
+                },{
+                    "input_parameter": "kLa",
+                    "target_property": "kLa"
                 },{
                     "input_parameter": "model_type",
                     "target_property": "model_type"
