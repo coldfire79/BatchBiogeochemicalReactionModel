@@ -67,7 +67,7 @@ class BatchBiogeochemicalReactionModelTest(unittest.TestCase):
 
         params={
             'workspace_name': self.wsName,
-            "fba_model": "39537/18/1",
+            "fba_model": "39537/16/2",
             "num_samples": "10",
             "model_type": "1",
             "max_growth": "0.3",
@@ -87,7 +87,7 @@ class BatchBiogeochemicalReactionModelTest(unittest.TestCase):
 
         # params={
         #     'workspace_name': self.wsName,
-        #     "fba_model": "39537/18/1",
+        #     "fba_model": "39537/16/2",
         #     "num_samples": "10",
         #     "model_type": "1",
         #     "max_growth": "0.3",
