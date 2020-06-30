@@ -163,7 +163,7 @@
         "service-mapping": {
             "url": "",
             "name": "BatchBiogeochemicalReactionModel",
-            "method": "run_BatchBiogeochemicalReactionModel",
+            "method": "run_cstr",
             "input_mapping": [
                 {
                     "narrative_system_variable": "workspace",
