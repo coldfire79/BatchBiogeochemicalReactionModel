@@ -342,6 +342,10 @@ class Application(object):
                              name='BatchBiogeochemicalReactionModel.run_BatchBiogeochemicalReactionModel',
                              types=[dict])
         self.method_authentication['BatchBiogeochemicalReactionModel.run_BatchBiogeochemicalReactionModel'] = 'required'  # noqa
+        self.rpc_service.add(impl_BatchBiogeochemicalReactionModel.run_cstr,
+                             name='BatchBiogeochemicalReactionModel.run_cstr',
+                             types=[dict])
+        self.method_authentication['BatchBiogeochemicalReactionModel.run_cstr'] = 'required'  # noqa
         self.rpc_service.add(impl_BatchBiogeochemicalReactionModel.status,
                              name='BatchBiogeochemicalReactionModel.status',
                              types=[dict])

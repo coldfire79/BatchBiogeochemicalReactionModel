@@ -10,6 +10,8 @@ import pandas as pd
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.KBaseReportClient import KBaseReport
 from BatchBiogeochemicalReactionModel.BatchSimulation import BatchSimulation
+from BatchBiogeochemicalReactionModel.CSTRSimulation import CSTRSimulation
+
 #END_HEADER
 
 
@@ -43,6 +45,7 @@ class BatchBiogeochemicalReactionModel:
         self.shared_folder = config['scratch']
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
+        self.cstr_sim = CSTRSimulation(config)
         #END_CONSTRUCTOR
         pass
 
@@ -217,6 +220,27 @@ class BatchBiogeochemicalReactionModel:
                              'output is not type dict as required.')
         # return the results
         return [output]
+
+    def run_cstr(self, ctx, params):
+        """
+        This example function accepts any number of parameters and returns results in a KBaseReport
+        :param params: instance of mapping from String to unspecified object
+        :returns: instance of type "ReportResults" -> structure: parameter
+           "report_name" of String, parameter "report_ref" of String
+        """
+        # ctx is the context object
+        # return variables are: output
+        #BEGIN run_cstr
+        output = self.cstr_sim.run_cstr(params)
+        #END run_cstr
+
+        # At some point might do deeper type checking...
+        if not isinstance(output, dict):
+            raise ValueError('Method run_cstr return value ' +
+                             'output is not type dict as required.')
+        # return the results
+        return [output]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",

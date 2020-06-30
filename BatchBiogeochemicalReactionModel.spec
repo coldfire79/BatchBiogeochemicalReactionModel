@@ -13,4 +13,9 @@ module BatchBiogeochemicalReactionModel {
     */
     funcdef run_BatchBiogeochemicalReactionModel(mapping<string,UnspecifiedObject> params) returns (ReportResults output) authentication required;
 
+    /* An X/Y/Z style reference */
+    typedef string obj_ref;
+
+    /* run_lambda_analysis: perform lambda analysis*/
+    funcdef run_cstr(mapping<string,UnspecifiedObject> params) returns (ReportResults output) authentication required;
 };

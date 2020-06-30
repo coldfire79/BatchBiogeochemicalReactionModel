@@ -1,0 +1,237 @@
+{
+    "ver": "0.0.1",
+    "authors": [
+        "coldfire"
+    ],
+    "contact": "",
+    "categories": ["active"],
+    "widgets": {
+        "input": null,
+        "output" : "no-display"
+    },
+    "parameters": [ 
+        {
+            "id": "fba_model",
+            "optional" : false,
+            "advanced" : false,
+            "allow_multiple" : false,
+            "default_values" : [ "" ],
+            "field_type" : "text",
+            "text_options" : { "valid_ws_types": ["KBaseFBA.FBAModel"] }
+        },
+        {
+            "id": "num_samples",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "10" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "max_growth",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.3" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "cell_death",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.01" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "harvest_vol",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "10" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "dilution_rate",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.1" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "feed_doc",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.05" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "feed_o2",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.25" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "initial_doc",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.1" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "initial_o2",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.25" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "initial_biom",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "0.1" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "carrying_capacity",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "inf" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+          "id" : "model_type",
+          "optional" : false,
+          "advanced" : true,
+          "allow_multiple" : false,
+          "checkbox_options" : {
+              "checked_value": 1,
+              "unchecked_value": 0
+          },
+          "default_values" : [ "1" ],
+          "field_type" : "checkbox",
+          "text_options" : { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "end_time",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "200" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "timestep",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "50" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        },
+        {
+            "id": "random_seed",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "0" ],
+            "field_type": "text",
+            "text_options": { "valid_ws_types": [ ] }
+        }
+    ],
+    "behavior": {
+        "service-mapping": {
+            "url": "",
+            "name": "BatchBiogeochemicalReactionModel",
+            "method": "run_BatchBiogeochemicalReactionModel",
+            "input_mapping": [
+                {
+                    "narrative_system_variable": "workspace",
+                    "target_property": "workspace_name"
+                },{
+                    "narrative_system_variable": "workspace_id",
+                    "target_property": "workspace_id"
+                },{
+                    "input_parameter": "fba_model",
+                    "target_property": "fba_model",
+                    "target_type_transform": "resolved-ref"
+                },{
+                    "input_parameter": "num_samples",
+                    "target_property": "num_samples"
+                },{
+                    "input_parameter": "max_growth",
+                    "target_property": "max_growth"
+                },{
+                    "input_parameter": "cell_death",
+                    "target_property": "cell_death"
+                },{
+                    "input_parameter": "harvest_vol",
+                    "target_property": "harvest_vol"
+                },{
+                    "input_parameter": "dilution_rate",
+                    "target_property": "dilution_rate"
+                },{
+                    "input_parameter": "initial_doc",
+                    "target_property": "initial_doc"
+                },{
+                    "input_parameter": "initial_o2",
+                    "target_property": "initial_o2"
+                },{
+                    "input_parameter": "initial_biom",
+                    "target_property": "initial_biom"
+                },{
+                    "input_parameter": "carrying_capacity",
+                    "target_property": "carrying_capacity"
+                },{
+                    "input_parameter": "feed_doc",
+                    "target_property": "feed_doc"
+                },{
+                    "input_parameter": "feed_o2",
+                    "target_property": "feed_o2"
+                },{
+                    "input_parameter": "model_type",
+                    "target_property": "model_type"
+                },{
+                    "input_parameter": "end_time",
+                    "target_property": "end_time"
+                },{
+                    "input_parameter": "timestep",
+                    "target_property": "timestep"
+                },{
+                    "input_parameter": "random_seed",
+                    "target_property": "random_seed"
+                }
+            ],
+            "output_mapping": [
+                {
+                    "service_method_output_path": [0,"report_name"],
+                    "target_property": "report_name"
+                },{
+                    "service_method_output_path": [0,"report_ref"],
+                    "target_property": "report_ref"
+                }
+            ]
+        }
+    },
+    "job_id_output_field": "docker"
+}
