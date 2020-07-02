@@ -34,11 +34,11 @@ parameters :
 
     num_samples :
         ui-name : |
-            Number of samples
+            Number of compounds
         short-hint : |
-            Number of samples to be randomly selected
+            Number of compounds to be randomly selected
         long-hint  : |
-            The number of samples is set as 10 by default.
+            The number of compounds is set as 10 by default.
 
     max_growth :
         ui-name : |
